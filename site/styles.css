@@ -407,6 +407,18 @@ nav {
 }
 
 /* ---------- Filter Pills ---------- */
+.filter-group {
+  margin-bottom: 40px;
+}
+
+.filter-group .filter-pills {
+  margin-bottom: 12px;
+}
+
+.filter-group .filter-pills:last-child {
+  margin-bottom: 0;
+}
+
 .filter-pills {
   display: flex;
   flex-wrap: wrap;

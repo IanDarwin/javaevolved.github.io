@@ -33,6 +33,7 @@ sections:
 filters:
   show: 'Show:'
   all: All
+  jdk: 'JDK:'
 difficulty:
   beginner: Beginner
   intermediate: Intermediate

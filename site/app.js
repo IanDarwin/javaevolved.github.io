@@ -202,9 +202,38 @@
      2. Category Filter Pills (homepage)
      ========================================================== */
   const initFilters = () => {
-    const pills = document.querySelectorAll('.filter-pill');
+    const pills = document.querySelectorAll('#categoryFilter .filter-pill');
+    const jdkPills = document.querySelectorAll('#jdkFilter .filter-pill');
     const cards = document.querySelectorAll('.tip-card');
     if (!pills.length || !cards.length) return;
+
+    let activeCategory = null;
+    let activeJdk = null;
+
+    // LTS cycle ranges: each entry covers all versions introduced since the previous LTS
+    const LTS_RANGES = {
+      '11': [9, 11],
+      '17': [12, 17],
+      '21': [18, 21],
+      '25': [22, 25]
+    };
+
+    const applyFilters = () => {
+      cards.forEach(card => {
+        const matchesCategory = !activeCategory || card.dataset.category === activeCategory;
+        let matchesJdk = true;
+        if (activeJdk) {
+          const version = parseInt(card.dataset.jdk, 10);
+          const range = LTS_RANGES[activeJdk];
+          matchesJdk = range && version >= range[0] && version <= range[1];
+        }
+        card.classList.toggle('filter-hidden', !(matchesCategory && matchesJdk));
+      });
+
+      if (window.updateViewToggleState) {
+        window.updateViewToggleState();
+      }
+    };
 
     pills.forEach(pill => {
       pill.addEventListener('click', () => {
@@ -215,37 +244,38 @@
         pills.forEach(p => p.classList.remove('active'));
         if (!wasActive) pill.classList.add('active');
 
-        const showAll = (!wasActive && category === 'all');
-        const showCategory = (!wasActive && category !== 'all') ? category : null;
-
-        // Filter cards
-        cards.forEach(card => {
-          if (showAll || card.dataset.category === showCategory) {
-            card.classList.remove('filter-hidden');
-          } else {
-            card.classList.add('filter-hidden');
-          }
-        });
+        activeCategory = (!wasActive && category !== 'all') ? category : null;
 
         // Update URL hash to reflect active filter
-        const activeFilter = pill.classList.contains('active') ? category : null;
-        if (activeFilter && activeFilter !== 'all') {
-          history.replaceState(null, '', '#' + activeFilter);
+        if (activeCategory) {
+          history.replaceState(null, '', '#' + activeCategory);
         } else {
           history.replaceState(null, '', window.location.pathname + window.location.search);
         }
 
-        // Update view toggle button state
-        if (window.updateViewToggleState) {
-          window.updateViewToggleState();
-        }
+        applyFilters();
+      });
+    });
+
+    jdkPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        const version = pill.dataset.jdkFilter || 'all';
+        const wasActive = pill.classList.contains('active');
+
+        // Update active JDK pill (toggle off if re-clicked)
+        jdkPills.forEach(p => p.classList.remove('active'));
+        if (!wasActive) pill.classList.add('active');
+
+        activeJdk = (!wasActive && version !== 'all') ? version : null;
+
+        applyFilters();
       });
     });
 
     // Apply filter from a given category string (or "all" / empty for no filter)
     const applyHashFilter = (category) => {
       const target = category
-        ? document.querySelector(`.filter-pill[data-filter="${category}"]`)
+        ? document.querySelector(`#categoryFilter .filter-pill[data-filter="${category}"]`)
         : null;
       if (target) {
         target.click();
@@ -253,7 +283,7 @@
         const section = document.getElementById('all-comparisons');
         if (section) section.scrollIntoView({ behavior: 'smooth' });
       } else {
-        const allButton = document.querySelector('.filter-pill[data-filter="all"]');
+        const allButton = document.querySelector('#categoryFilter .filter-pill[data-filter="all"]');
         if (allButton) allButton.click();
       }
     };

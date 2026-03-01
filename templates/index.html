@@ -233,6 +233,7 @@
       <h2 class="section-title">{{site.allComparisons}}</h2>
       <span class="section-badge">{{site.snippetsBadge}}</span>
     </div>
+    <div class="filter-group">
     <div class="filter-pills" id="categoryFilter">
       <span class="filter-label">{{filters.show}}</span>
       <button class="filter-pill" data-filter="all">{{filters.all}}</button>
@@ -247,6 +248,15 @@
       <button class="filter-pill" data-filter="security">Security</button>
       <button class="filter-pill" data-filter="tooling">Tooling</button>
       <button class="filter-pill" data-filter="enterprise">Enterprise</button>
+    </div>
+    <div class="filter-pills" id="jdkFilter">
+      <span class="filter-label">{{filters.jdk}}</span>
+      <button class="filter-pill" data-jdk-filter="all">{{filters.all}}</button>
+      <button class="filter-pill" data-jdk-filter="11">Java 11</button>
+      <button class="filter-pill" data-jdk-filter="17">Java 17</button>
+      <button class="filter-pill" data-jdk-filter="21">Java 21</button>
+      <button class="filter-pill" data-jdk-filter="25">Java 25</button>
+    </div>
     </div>
     <div class="view-toggle-wrap">
       <button class="view-toggle-btn" id="viewToggle" aria-label="Toggle view mode">
