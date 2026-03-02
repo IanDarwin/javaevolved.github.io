@@ -1,8 +1,6 @@
-site:
-  title: java.evolved
-  tagline: জাভা বিকশিত হয়েছে। আপনার কোডও পারে।
-  tagline_line1: জাভা বিকশিত হয়েছে।
-  tagline_line2: আপনার কোডও পারে।
+  tagline: জাভাতে এসেছে নতুন দিগন্ত, আপনার কোডও হোক প্রাণবন্ত
+  tagline_line1: জাভাতে এসেছে নতুন দিগন্ত,
+  tagline_line2: আপনার কোডও হোক প্রাণবন্ত।
   description: আধুনিক Java কোড স্নিপেটের একটি সংগ্রহ। পুরনো Java প্যাটার্নের পাশে তার পরিষ্কার, আধুনিক বিকল্প।
   heroSnippetCount: ✦ {{snippetCount}} আধুনিক প্যাটার্ন · Java 8 → Java 25
   heroOld: পুরনো
@@ -67,7 +65,7 @@ stats:
   categories: বিভাগ
   linesOfPython: প্রয়োজনীয় Python লাইনের সংখ্যা
 footer:
-  tagline: জাভা বিকশিত হয়েছে। আপনার কোডও পারে।
+  tagline: জাভাতে এসেছে নতুন দিগন্ত, আপনার কোডও হোক প্রাণবন্ত
   madeWith: ভালোবাসা দিয়ে তৈরি করেছেন
   and: এবং
   inspiredBy: অনুপ্রাণিত
