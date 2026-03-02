@@ -97,14 +97,14 @@ jobs:
           # HTML generator
           PY_STEADY=$(avg_runs $STEADY_RUNS python3 html-generators/generate.py)
           JBANG_STEADY=$(avg_runs $STEADY_RUNS jbang html-generators/generate.java)
-          JAR_STEADY=$(avg_runs $STEADY_RUNS java -jar "$JAR")
-          AOT_STEADY=$(avg_runs $STEADY_RUNS java -XX:AOTCache="$AOT" -jar "$JAR")
+          JAR_STEADY=$(avg_runs $STEADY_RUNS java -XX:Tier4CompileThreshold=100 -jar "$JAR")
+          AOT_STEADY=$(avg_runs $STEADY_RUNS java -XX:Tier4CompileThreshold=100 -XX:AOTCache="$AOT" -jar "$JAR")
 
           # OG generator
           OG_PY_STEADY=$(avg_runs $STEADY_RUNS python3 html-generators/generateog.py)
           OG_JBANG_STEADY=$(avg_runs $STEADY_RUNS jbang html-generators/generateog.java)
-          OG_JAR_STEADY=$(avg_runs $STEADY_RUNS java -jar "$OG_JAR")
-          OG_AOT_STEADY=$(avg_runs $STEADY_RUNS java -XX:AOTCache="$OG_AOT" -jar "$OG_JAR")
+          OG_JAR_STEADY=$(avg_runs $STEADY_RUNS java -XX:Tier4CompileThreshold=100 -jar "$OG_JAR")
+          OG_AOT_STEADY=$(avg_runs $STEADY_RUNS java -XX:Tier4CompileThreshold=100 -XX:AOTCache="$OG_AOT" -jar "$OG_JAR")
 
           # Write to GitHub Actions Job Summary
           {
@@ -238,13 +238,13 @@ jobs:
 
           # HTML generator
           PY_CI=$(measure python3 html-generators/generate.py)
-          JAR_CI=$(measure java -jar html-generators/generate.jar)
-          AOT_CI=$(measure java -XX:AOTCache=html-generators/generate.aot -jar html-generators/generate.jar)
+          JAR_CI=$(measure java -XX:Tier4CompileThreshold=100 -jar html-generators/generate.jar)
+          AOT_CI=$(measure java -XX:Tier4CompileThreshold=100 -XX:AOTCache=html-generators/generate.aot -jar html-generators/generate.jar)
 
           # OG generator
           OG_PY_CI=$(measure python3 html-generators/generateog.py)
-          OG_JAR_CI=$(measure java -jar html-generators/generateog.jar)
-          OG_AOT_CI=$(measure java -XX:AOTCache=html-generators/generateog.aot -jar html-generators/generateog.jar)
+          OG_JAR_CI=$(measure java -XX:Tier4CompileThreshold=100 -jar html-generators/generateog.jar)
+          OG_AOT_CI=$(measure java -XX:Tier4CompileThreshold=100 -XX:AOTCache=html-generators/generateog.aot -jar html-generators/generateog.jar)
 
           {
             echo "## CI Cold Start — \`$os_name\`"

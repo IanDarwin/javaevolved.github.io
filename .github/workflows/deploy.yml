@@ -84,7 +84,7 @@ jobs:
 
       - name: Generate HTML with cached JAR + AOT
         if: steps.changes.outputs.generate == 'true' && steps.cache-restore.outputs.cache-hit == 'true'
-        run: java -XX:AOTCache=html-generators/generate.aot -jar html-generators/generate.jar
+        run: java -XX:Tier4CompileThreshold=100 -XX:AOTCache=html-generators/generate.aot -jar html-generators/generate.jar
 
       - name: Setup JBang (cache miss)
         if: steps.changes.outputs.generate == 'true' && steps.cache-restore.outputs.cache-hit != 'true'
@@ -107,7 +107,7 @@ jobs:
 
       - name: Generate OG cards with cached JAR + AOT
         if: steps.changes.outputs.og == 'true' && steps.cache-restore-og.outputs.cache-hit == 'true'
-        run: java -XX:AOTCache=html-generators/generateog.aot -jar html-generators/generateog.jar
+        run: java -XX:Tier4CompileThreshold=100 -XX:AOTCache=html-generators/generateog.aot -jar html-generators/generateog.jar
 
       - name: Generate OG cards with JBang (cache miss)
         if: steps.changes.outputs.og == 'true' && steps.cache-restore-og.outputs.cache-hit != 'true'
