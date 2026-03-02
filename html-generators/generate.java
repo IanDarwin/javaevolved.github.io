@@ -89,7 +89,8 @@ static Optional<Path> findWithExtensions(Path dir, String baseName) {
 static JsonNode readAuto(Path path) throws IOException {
     var name = path.getFileName().toString();
     var ext = name.substring(name.lastIndexOf('.') + 1);
-    return MAPPERS.getOrDefault(ext, JSON_MAPPER).readTree(path.toFile());
+    var content = Files.readString(path);
+    return MAPPERS.getOrDefault(ext, JSON_MAPPER).readTree(content);
 }
 
 /** Load UI strings for a locale, falling back to en.json for missing keys */
@@ -297,7 +298,7 @@ SequencedMap<String, Snippet> loadAllSnippets() throws IOException {
         for (var path : sorted) {
             var filename = path.getFileName().toString();
             var ext = filename.substring(filename.lastIndexOf('.') + 1);
-            var json = MAPPERS.get(ext).readTree(path.toFile());
+            var json = MAPPERS.get(ext).readTree(Files.readString(path));
             var snippet = new Snippet(json);
             snippets.put(snippet.key(), snippet);
         }

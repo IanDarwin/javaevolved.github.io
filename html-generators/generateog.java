@@ -192,7 +192,7 @@ SequencedMap<String, Snippet> loadAllSnippets() throws IOException {
         for (var path : sorted) {
             var ext = path.getFileName().toString();
             ext = ext.substring(ext.lastIndexOf('.') + 1);
-            var snippet = new Snippet(MAPPERS.get(ext).readTree(path.toFile()));
+            var snippet = new Snippet(MAPPERS.get(ext).readTree(Files.readString(path)));
             snippets.put(snippet.key(), snippet);
         }
     }
