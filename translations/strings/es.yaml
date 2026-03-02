@@ -27,6 +27,8 @@ sections:
   jdkSupport: Soporte JDK
   howItWorks: Cómo funciona
   relatedDocs: Documentación Relacionada
+  proof: Prueba
+  proofLink: Ver código de prueba
   relatedPatterns: Patrones relacionados
 filters:
   show: 'Mostrar:'
@@ -49,6 +51,7 @@ cards:
   hoverHint: pasa el ratón para ver el moderno →
   hoverHintRelated: Pasa el ratón para ver el moderno ➜
   touchHint: 👆 toca o desliza →
+  learnMore: saber más
 copy:
   copy: Copiar
   copied: ¡Copiado!

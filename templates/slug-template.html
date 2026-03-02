@@ -12,7 +12,9 @@
   <script>
     (function(){var t=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');document.documentElement.setAttribute('data-theme',t);})();
   </script>
-  <link rel="icon" href="{{basePrefix}}favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="{{basePrefix}}favicon.ico" sizes="any">
+  <link rel="icon" href="{{basePrefix}}favicon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="{{basePrefix}}apple-touch-icon.png">
   <link rel="manifest" href="{{basePrefix}}manifest.json">
   <meta name="theme-color" content="#f97316">
   <meta name="mobile-web-app-capable" content="yes">
@@ -25,7 +27,7 @@
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="java.evolved">
   <meta property="og:locale" content="{{ogLocale}}">
-  <meta property="og:image" content="https://javaevolved.github.io/images/social-card.png">
+  <meta property="og:image" content="{{ogImage}}">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:type" content="image/png">
@@ -33,7 +35,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{title}} | java.evolved">
   <meta name="twitter:description" content="{{summary}}">
-  <meta name="twitter:image" content="https://javaevolved.github.io/images/social-card.png">
+  <meta name="twitter:image" content="{{ogImage}}">
 
   <script type="application/ld+json">
   {
@@ -163,6 +165,8 @@
       </div>
     </section>
 
+{{socialShare}}
+
     <div class="contribute-inline">
       {{contribute.seeIssue}} <a href="{{contributeCodeIssueUrl}}" target="_blank" rel="noopener">{{contribute.reportIt}}</a>
     </div>
@@ -214,6 +218,8 @@
       </div>
     </section>
 
+{{proofSection}}
+
     <section class="related">
       <div class="section-label">{{sections.relatedPatterns}}</div>
       <div class="related-grid">
@@ -223,8 +229,6 @@
   </article>
 </section>
 
-
-{{socialShare}}
 
   <footer>
     <p><a href="{{homeUrl}}">java.evolved</a> — {{footer.tagline}}</p>

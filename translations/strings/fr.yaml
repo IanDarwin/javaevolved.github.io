@@ -1,8 +1,8 @@
 site:
   title: java.evolved
-  tagline: Java a évolué. Votre code aussi peut.
+  tagline: Java a évolué. Votre code peut aussi.
   tagline_line1: Java a évolué.
-  tagline_line2: Votre code aussi peut.
+  tagline_line2: Votre code peut aussi.
   description: Une collection de snippets Java modernes. Chaque ancien pattern Java
     à côté de son remplacement moderne et propre — côte à côte.
   heroSnippetCount: ✦ {{snippetCount}} patterns modernes · Java 8 → Java 25
@@ -27,6 +27,8 @@ sections:
   jdkSupport: Support JDK
   howItWorks: Comment ça fonctionne
   relatedDocs: Documentation Associée
+  proof: Preuve
+  proofLink: Voir la preuve source
   relatedPatterns: Patterns associés
 filters:
   show: 'Afficher :'
@@ -49,6 +51,7 @@ cards:
   hoverHint: survolez pour voir le moderne →
   hoverHintRelated: Survolez pour voir le moderne ➜
   touchHint: 👆 appuyez ou glissez →
+  learnMore: en savoir plus
 copy:
   copy: Copier
   copied: Copié !
@@ -63,7 +66,7 @@ stats:
   categories: Catégories
   linesOfPython: Lignes de Python Requises
 footer:
-  tagline: Java a évolué. Votre code aussi peut.
+  tagline: Java a évolué. Votre code peut aussi.
   madeWith: Fait avec ❤️ par
   and: et
   inspiredBy: Inspiré par

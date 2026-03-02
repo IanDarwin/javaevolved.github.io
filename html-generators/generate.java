@@ -89,7 +89,8 @@ static Optional<Path> findWithExtensions(Path dir, String baseName) {
 static JsonNode readAuto(Path path) throws IOException {
     var name = path.getFileName().toString();
     var ext = name.substring(name.lastIndexOf('.') + 1);
-    return MAPPERS.getOrDefault(ext, JSON_MAPPER).readTree(path.toFile());
+    var content = Files.readString(path);
+    return MAPPERS.getOrDefault(ext, JSON_MAPPER).readTree(content);
 }
 
 /** Load UI strings for a locale, falling back to en.json for missing keys */
@@ -297,7 +298,7 @@ SequencedMap<String, Snippet> loadAllSnippets() throws IOException {
         for (var path : sorted) {
             var filename = path.getFileName().toString();
             var ext = filename.substring(filename.lastIndexOf('.') + 1);
-            var json = MAPPERS.get(ext).readTree(path.toFile());
+            var json = MAPPERS.get(ext).readTree(Files.readString(path));
             var snippet = new Snippet(json);
             snippets.put(snippet.key(), snippet);
         }
@@ -366,7 +367,8 @@ String renderIndexCard(String tpl, Snippet s, String locale, Map<String, String>
             Map.entry("jdkVersion", s.jdkVersion()), Map.entry("cardHref", cardHref),
             Map.entry("cards.old", strings.getOrDefault("cards.old", "Old")),
             Map.entry("cards.modern", strings.getOrDefault("cards.modern", "Modern")),
-            Map.entry("cards.hoverHint", strings.getOrDefault("cards.hoverHint", "hover to see modern →"))));
+            Map.entry("cards.hoverHint", strings.getOrDefault("cards.hoverHint", "hover to see modern →")),
+            Map.entry("cards.learnMore", strings.getOrDefault("cards.learnMore", "learn more"))));
 }
 
 String renderWhyCards(String tpl, JsonNode whyList) {
@@ -403,14 +405,38 @@ String renderDocLinks(String tpl, JsonNode docs) {
     return String.join("\n", links);
 }
 
+String slugToPascalCase(String slug) {
+    return Arrays.stream(slug.split("-"))
+            .filter(w -> !w.isEmpty())
+            .map(w -> Character.toUpperCase(w.charAt(0)) + w.substring(1))
+            .collect(Collectors.joining());
+}
+
+String renderProofSection(Snippet s, Map<String, String> strings) {
+    var pascal = slugToPascalCase(s.slug());
+    var proofFile = Path.of("proof", s.category(), pascal + ".java");
+    if (!Files.exists(proofFile)) return "";
+    var proofUrl = "https://github.com/javaevolved/javaevolved.github.io/blob/main/proof/%s/%s.java"
+            .formatted(s.category(), pascal);
+    var label = strings.getOrDefault("sections.proof", "Proof");
+    var linkText = strings.getOrDefault("sections.proofLink", "View proof source");
+    return """
+    <section class="docs-section">
+      <div class="section-label">%s</div>
+      <div class="docs-links">
+        <a href="%s" target="_blank" rel="noopener" class="doc-link">%s ↗</a>
+      </div>
+    </section>""".formatted(label, proofUrl, linkText);
+}
+
 String renderRelatedSection(String tpl, Snippet snippet, Map<String, Snippet> all, String locale, Map<String, String> strings) {
     return snippet.related().stream().filter(all::containsKey)
             .map(p -> renderRelatedCard(tpl, all.get(p), locale, strings))
             .collect(Collectors.joining("\n"));
 }
 
-String renderSocialShare(String tpl, String slug, String title, Map<String, String> strings) {
-    var encodedUrl = urlEncode("%s/%s.html".formatted(BASE_URL, slug));
+String renderSocialShare(String tpl, String category, String slug, String title, Map<String, String> strings) {
+    var encodedUrl = urlEncode("%s/%s/%s.html".formatted(BASE_URL, category, slug));
     var encodedText = urlEncode("%s \u2013 java.evolved".formatted(title));
     return replaceTokens(tpl, Map.of("encodedUrl", encodedUrl, "encodedText", encodedText,
             "share.label", strings.getOrDefault("share.label", "Share")));
@@ -462,14 +488,16 @@ String generateHtml(Templates tpl, Snippet s, Map<String, Snippet> all, Map<Stri
             Map.entry("supportBadge", supportBadge(s.supportState(), extraTokens)),
             Map.entry("supportBadgeClass", supportBadgeClass(s.supportState())),
             Map.entry("canonicalUrl", canonicalUrl),
+            Map.entry("ogImage", "%s/og/%s/%s.png".formatted(BASE_URL, s.category(), s.slug())),
             Map.entry("flatUrl", "%s/%s.html".formatted(BASE_URL, s.slug())),
             Map.entry("titleJson", jsonEscape(s.title())), Map.entry("summaryJson", jsonEscape(s.summary())),
             Map.entry("categoryDisplayJson", jsonEscape(s.catDisplay())),
             Map.entry("navArrows", renderNavArrows(s, locale)),
             Map.entry("whyCards", renderWhyCards(tpl.whyCard(), s.whyModernWins())),
             Map.entry("docLinks", renderDocLinks(tpl.docLink(), s.node().withArray("docs"))),
+            Map.entry("proofSection", renderProofSection(s, extraTokens)),
             Map.entry("relatedCards", renderRelatedSection(tpl.relatedCard(), s, all, locale, extraTokens)),
-            Map.entry("socialShare", renderSocialShare(tpl.socialShare(), s.slug(), s.title(), extraTokens))));
+            Map.entry("socialShare", renderSocialShare(tpl.socialShare(), s.category(), s.slug(), s.title(), extraTokens))));
     var localeName = LOCALES.getOrDefault(locale, locale);
     tokens.putAll(buildContributeUrls(s, locale, localeName));
     return replaceTokens(tpl.page(), tokens);

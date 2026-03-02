@@ -175,9 +175,7 @@ nav {
   font-weight: 700;
   font-size: 1.15rem;
   color: var(--text);
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  display: inline;
 }
 
 .logo span {
@@ -272,7 +270,7 @@ nav {
 /* ---------- Hero ---------- */
 .hero {
   text-align: center;
-  padding: 80px 24px 48px;
+  padding: 80px 24px 16px;
   max-width: 800px;
   margin: 0 auto;
 }
@@ -404,46 +402,6 @@ nav {
   padding: 4px 12px;
   border-radius: 999px;
   margin-bottom: 16px;
-}
-
-/* ---------- Filter Pills ---------- */
-.filter-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 40px;
-}
-
-.filter-label {
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  padding: 7px 8px 7px 0;
-}
-
-.filter-pill {
-  padding: 7px 16px;
-  border-radius: 999px;
-  font-size: 0.82rem;
-  font-weight: 500;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.filter-pill:hover {
-  border-color: var(--border-light);
-  color: var(--text);
-}
-
-.filter-pill.active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
 }
 
 /* ---------- Tips / Card Grid ---------- */
@@ -667,7 +625,91 @@ nav {
 .view-toggle-wrap {
   display: flex;
   justify-content: center;
+  align-items: center;
+  gap: 10px;
   margin: 16px 0;
+}
+
+/* ---------- JDK Dropdown ---------- */
+.jdk-dropdown {
+  position: relative;
+  display: inline-flex;
+}
+
+.jdk-dropdown-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.25s;
+  white-space: nowrap;
+}
+
+.jdk-dropdown-toggle:hover {
+  background: var(--surface-2);
+  border-color: var(--border-light);
+  transform: translateY(-2px);
+}
+
+.jdk-dropdown-toggle.has-filter {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.jdk-label {
+  font-weight: 600;
+}
+
+.dropdown-caret {
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
+
+.jdk-dropdown ul {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  z-index: 100;
+  min-width: 130px;
+}
+
+.jdk-dropdown li {
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 0.88rem;
+  color: var(--text);
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.jdk-dropdown li:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.jdk-dropdown li.active {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.jdk-dropdown li.active:hover {
+  color: #fff;
 }
 
 .view-toggle-btn {
@@ -1372,6 +1414,15 @@ nav {
   transition: background 0.15s;
 }
 
+.search-result > div:first-child {
+  flex: 1;
+  min-width: 0;
+}
+
+.search-result > .badge {
+  flex-shrink: 0;
+}
+
 .search-result:hover,
 .search-result.selected {
   background: var(--surface-2);
@@ -1436,7 +1487,7 @@ footer a:hover {
   }
 
   .hero {
-    padding: 56px 16px 32px;
+    padding: 56px 16px 16px;
   }
 
   .section {
@@ -1497,7 +1548,7 @@ footer a:hover {
   border: 1px solid var(--accent);
   border-radius: 12px;
   padding: 16px 24px;
-  margin-top: 8px;
+  margin-top: 16px;
   margin-bottom: 8px;
 }
 .copilot-icon {

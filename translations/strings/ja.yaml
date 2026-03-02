@@ -25,6 +25,8 @@ sections:
   jdkSupport: JDKサポート
   howItWorks: 仕組み
   relatedDocs: 関連ドキュメント
+  proof: 証明
+  proofLink: 証明ソースを見る
   relatedPatterns: 関連パターン
 filters:
   show: '表示:'
@@ -47,6 +49,7 @@ cards:
   hoverHint: ホバーしてモダンを見る →
   hoverHintRelated: ホバーしてモダンを見る ➜
   touchHint: 👆 タップまたはスワイプ →
+  learnMore: 詳しく見る
 copy:
   copy: コピー
   copied: コピーしました！

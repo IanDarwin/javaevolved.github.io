@@ -1,0 +1,90 @@
+site:
+  title: java.evolved
+  tagline: Java ewoluowała. Twój kod też może.
+  tagline_line1: Java ewoluowała.
+  tagline_line2: Twój kod też może.
+  description: Zbiór nowoczesnych snippetów Java. Każdy stary wzorzec Java obok jego czystego, nowoczesnego odpowiednika.
+  heroSnippetCount: ✦ {{snippetCount}} nowoczesnych wzorców · Java 8 → Java 25
+  heroOld: Stare
+  heroModern: Nowe
+  allComparisons: Wszystkie porównania
+  snippetsBadge: '{{snippetCount}} snippetów'
+nav:
+  allPatterns: ← Wszystkie wzorce
+  toggleTheme: Przełącz motyw
+  viewOnGitHub: Zobacz na GitHub
+  selectLanguage: Wybierz język
+breadcrumb:
+  home: Strona główna
+sections:
+  codeComparison: Porównanie kodu
+  whyModernWins: Dlaczego nowoczesne podejście wygrywa
+  oldApproach: Stare podejście
+  modernApproach: Nowoczesne podejście
+  sinceJdk: Od JDK
+  difficulty: Poziom trudności
+  jdkSupport: Wsparcie JDK
+  howItWorks: Jak to działa
+  relatedDocs: Powiązana dokumentacja
+  proof: Dowód
+  proofLink: Zobacz źródło dowodu
+  relatedPatterns: Powiązane wzorce
+filters:
+  show: 'Pokaż:'
+  all: Wszystkie
+difficulty:
+  beginner: Początkujący
+  intermediate: Średniozaawansowany
+  advanced: Zaawansowany
+search:
+  placeholder: Szukaj snippetów…
+  noResults: Brak wyników.
+  esc: ESC
+  searchTrigger: Szukaj…
+  navigate: nawiguj
+  open: otwórz
+  close: zamknij
+cards:
+  old: Stare
+  modern: Nowe
+  hoverHint: najedź, aby zobaczyć nową wersję →
+  hoverHintRelated: Najedź, aby zobaczyć nową wersję ➜
+  touchHint: 👆 dotknij lub przesuń →
+copy:
+  copy: Kopiuj
+  copied: Skopiowano!
+share:
+  label: Udostępnij
+view:
+  expandAll: Rozwiń wszystko
+  collapseAll: Zwiń wszystko
+stats:
+  modernPatterns: Nowoczesne wzorce
+  jdkVersions: Obsługiwane wersje JDK
+  categories: Kategorie
+  linesOfPython: Wymagane linie Pythona
+footer:
+  tagline: Java ewoluowała. Twój kod też może.
+  madeWith: Stworzone z ❤️ przez
+  and: i
+  inspiredBy: Inspiracja
+  viewOnGitHub: Zobacz na GitHub
+copilot:
+  headline: Modernizuj swój kod Java z GitHub Copilot.
+  description: Pozwól Copilotowi automatycznie migrować stare wzorce do nowoczesnej Javy.
+  appModernization: Modernizacja aplikacji →
+  javaGuide: Przewodnik po Javie →
+support:
+  available: Dostępne
+  preview: Preview
+  experimental: Eksperymentalne
+contribute:
+  button: Współtwórz
+  codeIssue: Zgłoś problem w kodzie
+  translationIssue: Zgłoś problem z tłumaczeniem
+  suggestPattern: Zaproponuj nowy wzorzec
+  seeIssue: "Widzisz problem z tym kodem?"
+  reportIt: "Daj nam znać."
+untranslated:
+  notice: Ta strona nie została jeszcze przetłumaczona na {{localeName}}.
+  viewInEnglish: Zobacz po angielsku

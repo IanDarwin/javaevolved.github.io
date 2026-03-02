@@ -199,62 +199,136 @@
   };
 
   /* ==========================================================
-     2. Category Filter Pills (homepage)
+     2. Category + JDK Dropdown Filters (homepage)
      ========================================================== */
   const initFilters = () => {
-    const pills = document.querySelectorAll('.filter-pill');
     const cards = document.querySelectorAll('.tip-card');
-    if (!pills.length || !cards.length) return;
+    if (!cards.length) return;
 
-    pills.forEach(pill => {
-      pill.addEventListener('click', () => {
-        const category = pill.dataset.filter || 'all';
-        const wasActive = pill.classList.contains('active');
+    let activeCategory = null;
+    let activeJdk = null;
 
-        // Update active pill (toggle off if re-clicked)
-        pills.forEach(p => p.classList.remove('active'));
-        if (!wasActive) pill.classList.add('active');
+    // LTS cycle ranges: each entry covers all versions introduced since the previous LTS
+    const LTS_RANGES = {
+      '11': [9, 11],
+      '17': [12, 17],
+      '21': [18, 21],
+      '25': [22, 25]
+    };
 
-        const showAll = (!wasActive && category === 'all');
-        const showCategory = (!wasActive && category !== 'all') ? category : null;
-
-        // Filter cards
-        cards.forEach(card => {
-          if (showAll || card.dataset.category === showCategory) {
-            card.classList.remove('filter-hidden');
-          } else {
-            card.classList.add('filter-hidden');
-          }
-        });
-
-        // Update URL hash to reflect active filter
-        const activeFilter = pill.classList.contains('active') ? category : null;
-        if (activeFilter && activeFilter !== 'all') {
-          history.replaceState(null, '', '#' + activeFilter);
-        } else {
-          history.replaceState(null, '', window.location.pathname + window.location.search);
+    const applyFilters = () => {
+      cards.forEach(card => {
+        const matchesCategory = !activeCategory || card.dataset.category === activeCategory;
+        let matchesJdk = true;
+        if (activeJdk) {
+          const version = parseInt(card.dataset.jdk, 10);
+          const range = LTS_RANGES[activeJdk];
+          matchesJdk = range && version >= range[0] && version <= range[1];
         }
-
-        // Update view toggle button state
-        if (window.updateViewToggleState) {
-          window.updateViewToggleState();
-        }
+        card.classList.toggle('filter-hidden', !(matchesCategory && matchesJdk));
       });
+
+      if (window.updateViewToggleState) {
+        window.updateViewToggleState();
+      }
+    };
+
+    // Generic helper to wire up a dropdown
+    const initDropdown = (dropdownEl, onSelect) => {
+      if (!dropdownEl) return;
+      const toggleBtn = dropdownEl.querySelector('.jdk-dropdown-toggle');
+      const labelEl = dropdownEl.querySelector('.jdk-label');
+      const list = dropdownEl.querySelector('ul');
+
+      const openDropdown = () => {
+        list.style.display = 'block';
+        // Flip dropdown below button if not enough space above
+        const rect = toggleBtn.getBoundingClientRect();
+        const listHeight = list.offsetHeight;
+        if (rect.top < listHeight + 12) {
+          list.style.bottom = 'auto';
+          list.style.top = 'calc(100% + 6px)';
+        } else {
+          list.style.top = 'auto';
+          list.style.bottom = 'calc(100% + 6px)';
+        }
+        toggleBtn.setAttribute('aria-expanded', 'true');
+      };
+
+      const closeDropdown = () => {
+        list.style.display = 'none';
+        toggleBtn.setAttribute('aria-expanded', 'false');
+      };
+
+      const selectItem = (li) => {
+        list.querySelectorAll('li').forEach(l => l.classList.remove('active'));
+        li.classList.add('active');
+        if (labelEl) labelEl.textContent = li.textContent.trim();
+      };
+
+      toggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        list.style.display === 'block' ? closeDropdown() : openDropdown();
+      });
+
+      document.addEventListener('click', closeDropdown);
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeDropdown();
+      });
+
+      list.querySelectorAll('li').forEach(li => {
+        li.addEventListener('click', (e) => {
+          e.stopPropagation();
+          closeDropdown();
+          selectItem(li);
+          onSelect(li, toggleBtn);
+        });
+      });
+
+      return { closeDropdown, setActive: (value) => {
+        const target = list.querySelector(`li[data-filter="${value}"]`);
+        if (target) {
+          selectItem(target);
+          toggleBtn.classList.toggle('has-filter', value !== 'all');
+        }
+      }};
+    };
+
+    // Category dropdown
+    const categoryDropdown = document.getElementById('categoryDropdown');
+    const catDropdownCtrl = initDropdown(categoryDropdown, (li, toggleBtn) => {
+      const category = li.dataset.filter;
+      activeCategory = category !== 'all' ? category : null;
+      toggleBtn.classList.toggle('has-filter', !!activeCategory);
+      if (activeCategory) {
+        history.replaceState(null, '', '#' + activeCategory);
+      } else {
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+      }
+      applyFilters();
+    });
+
+    // JDK dropdown
+    const jdkDropdown = document.getElementById('jdkDropdown');
+    initDropdown(jdkDropdown, (li, toggleBtn) => {
+      const version = li.dataset.jdkFilter;
+      activeJdk = version !== 'all' ? version : null;
+      toggleBtn.classList.toggle('has-filter', !!activeJdk);
+      applyFilters();
     });
 
     // Apply filter from a given category string (or "all" / empty for no filter)
     const applyHashFilter = (category) => {
-      const target = category
-        ? document.querySelector(`.filter-pill[data-filter="${category}"]`)
-        : null;
-      if (target) {
-        target.click();
-        // Scroll the filter section into view
+      if (category && catDropdownCtrl) {
+        catDropdownCtrl.setActive(category);
+        activeCategory = category;
+        applyFilters();
         const section = document.getElementById('all-comparisons');
         if (section) section.scrollIntoView({ behavior: 'smooth' });
-      } else {
-        const allButton = document.querySelector('.filter-pill[data-filter="all"]');
-        if (allButton) allButton.click();
+      } else if (catDropdownCtrl) {
+        catDropdownCtrl.setActive('all');
+        activeCategory = null;
+        applyFilters();
       }
     };
 
