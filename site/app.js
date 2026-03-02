@@ -242,6 +242,16 @@
 
       const openDropdown = () => {
         list.style.display = 'block';
+        // Flip dropdown below button if not enough space above
+        const rect = toggleBtn.getBoundingClientRect();
+        const listHeight = list.offsetHeight;
+        if (rect.top < listHeight + 12) {
+          list.style.bottom = 'auto';
+          list.style.top = 'calc(100% + 6px)';
+        } else {
+          list.style.top = 'auto';
+          list.style.bottom = 'calc(100% + 6px)';
+        }
         toggleBtn.setAttribute('aria-expanded', 'true');
       };
 
