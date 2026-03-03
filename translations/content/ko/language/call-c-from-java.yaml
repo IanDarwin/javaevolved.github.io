@@ -1,0 +1,17 @@
+title: "Java에서 C 코드 호출하기"
+oldApproach: "JNI (Java Native Interface)"
+modernApproach: "FFM (Foreign Function & Memory API)"
+summary: "FFM은 JNI 보일러플레이트나 C 측의 Java 지식 없이 Java가 C 라이브러리를 직접 호출할 수 있게 합니다."
+explanation: "Java에는 네이티브 C/C++ 코드를 호출하는 두 가지 접근 방식이 있습니다: 전통적인 JNI와 현대적인 FFM API입니다. JNI를 사용하면 메서드를 native로 선언하고, javac -h를 실행하여 C 헤더 파일을 생성한 다음, 번거로운 JNI C API(JNIEnv, jstring 등)를 사용하여 함수를 구현해야 합니다. Java 22에서 표준 API로 도입된 FFM은 이 모든 것을 없애줍니다: C 코드는 그냥 순수한 C — JNI 규약이 필요 없습니다. 이를 통해 기존 C/C++ 라이브러리를 수정 없이 훨씬 쉽게 호출할 수 있습니다. Java 측에서는 안전한 오프힙 메모리 관리를 위해 Arena를, 다운콜을 위해 MethodHandle을 사용하여 유연성과 안전성을 모두 보장합니다."
+whyModernWins:
+- icon: "👁"
+  title: "C 코드는 순수한 C 그대로"
+  desc: "C 함수에는 JNI 어노테이션이나 JNIEnv 보일러플레이트가 필요 없습니다 — 기존 C 라이브러리를 그대로 호출할 수 있습니다."
+- icon: "⚡"
+  title: "더 유연함"
+  desc: "어댑터 코드를 작성하거나 헤더 파일을 생성하지 않고도 대부분의 기존 C/C++ 라이브러리를 직접 호출할 수 있습니다."
+- icon: "🛠️"
+  title: "더 쉬운 워크플로"
+  desc: "멈춰서 javac -h를 실행하고 생성된 .h 파일에 정의된 인터페이스를 구현할 필요가 없습니다."
+support:
+  description: "JDK 22에서 표준화됨 (2024년 3월); 이전에는 JDK 14부터 인큐베이팅"
