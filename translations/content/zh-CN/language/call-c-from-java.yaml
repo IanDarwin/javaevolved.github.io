@@ -1,0 +1,17 @@
+title: "从 Java 调用 C 代码"
+oldApproach: "JNI（Java 原生接口）"
+modernApproach: "FFM（外部函数与内存 API）"
+summary: "FFM 让 Java 直接调用 C 库，无需 JNI 样板代码或在 C 端了解 Java。"
+explanation: "Java 有两种调用原生 C/C++ 代码的方式：传统的 JNI 和现代的 FFM API。使用 JNI，需要将方法声明为 native，运行 javac -h 生成 C 头文件，然后使用繁琐的 JNI C API（JNIEnv、jstring 等）实现函数。FFM 在 Java 22 中作为标准 API 引入，消除了这一切：C 代码就是普通的 C——无需 JNI 约定。这使得调用现有 C/C++ 库无需修改变得更加容易。Java 端使用 Arena 进行安全的堆外内存管理，使用 MethodHandle 进行降调用，确保灵活性和安全性。"
+whyModernWins:
+- icon: "👁"
+  title: "C 代码保持纯 C"
+  desc: "C 函数无需 JNI 注解或 JNIEnv 样板——任何现有的 C 库都可以直接调用。"
+- icon: "⚡"
+  title: "更灵活"
+  desc: "无需编写适配器代码或生成头文件，即可直接调用大多数现有的 C/C++ 库。"
+- icon: "🛠️"
+  title: "工作流更简便"
+  desc: "无需停下来运行 javac -h，也无需实现生成的 .h 文件中定义的接口。"
+support:
+  description: "在 JDK 22 中标准化（2024 年 3 月）；此前自 JDK 14 起处于孵化阶段"

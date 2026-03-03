@@ -1,0 +1,17 @@
+title: "Java'dan C Kodu Çağırma"
+oldApproach: "JNI (Java Native Interface)"
+modernApproach: "FFM (Foreign Function & Memory API)"
+summary: "FFM, Java'nın JNI şablon kodu veya C tarafında Java bilgisi gerektirmeksizin C kütüphanelerini doğrudan çağırmasını sağlar."
+explanation: "Java'nın yerel C/C++ kodu çağırmak için iki yaklaşımı vardır: geleneksel JNI ve modern FFM API'si. JNI ile bir metodu native olarak tanımlar, C başlık dosyası oluşturmak için javac -h çalıştırır, ardından zahmetli JNI C API'sini (JNIEnv, jstring vb.) kullanarak işlevi uygularsınız. Java 22'de standart API olarak tanıtılan FFM, bunların tümünü ortadan kaldırır: C kodu yalnızca sade C'dir — JNI kurallarına gerek yoktur. Bu, mevcut C/C++ kütüphanelerini değişiklik yapmadan çağırmayı çok daha kolay hale getirir. Java tarafı, güvenli yığın dışı bellek yönetimi için Arena ve downcall için MethodHandle kullanarak hem esneklik hem de güvenlik sağlar."
+whyModernWins:
+- icon: "👁"
+  title: "C kodu sade C olarak kalır"
+  desc: "C işlevi JNI açıklamaları veya JNIEnv şablon kodu gerektirmez — mevcut herhangi bir C kütüphanesi olduğu gibi çağrılabilir."
+- icon: "⚡"
+  title: "Daha esnek"
+  desc: "Bağdaştırıcı kod yazmadan veya başlık dosyaları oluşturmadan mevcut C/C++ kütüphanelerinin çoğunu doğrudan çağırın."
+- icon: "🛠️"
+  title: "Daha kolay iş akışı"
+  desc: "Durmanıza, javac -h çalıştırmanıza ve oluşturulan .h dosyasında tanımlanan arayüzü uygulamanıza gerek yoktur."
+support:
+  description: "JDK 22'de standartlaştırıldı (Mart 2024); daha önce JDK 14'ten bu yana inkübasyon aşamasındaydı"
